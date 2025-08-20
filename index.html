@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia de la Ingeniería - Infografía</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-antigua: #8d6e63;
+            --color-medieval: #6d4c41;
+            --color-renacimiento: #bcaaa4;
+            --color-industrial: #f9a825;
+            --color-moderna: #1565c0;
+            --color-digital: #283593;
+            --color-background: #f5f5f5;
+            --color-text: #212121;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--color-antigua) 0%, var(--color-digital) 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--color-antigua), var(--color-digital));
+            border-radius: 10px;
+        }
+        
+        .era {
+            display: flex;
+            margin-bottom: 60px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .era.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .era-left {
+            width: 50%;
+            padding: 20px 40px 20px 20px;
+            text-align: right;
+        }
+        
+        .era-right {
+            width: 50%;
+            padding: 20px 20px 20px 40px;
+        }
+        
+        .era-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .era-content:hover {
+            transform: translateY(-5px);
+        }
+        
+        .era-left .era-content::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -10px;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: inherit;
+            clip-path: polygon(0 0, 0 100%, 100% 50%);
+        }
+        
+        .era-right .era-content::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: inherit;
+            clip-path: polygon(100% 0, 100% 100%, 0 50%);
+        }
+        
+        .era-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid;
+        }
+        
+        .era-1 .era-title { color: var(--color-antigua); border-color: var(--color-antigua); }
+        .era-2 .era-title { color: var(--color-medieval); border-color: var(--color-medieval); }
+        .era-3 .era-title { color: var(--color-industrial); border-color: var(--color-industrial); }
+        .era-4 .era-title { color: var(--color-digital); border-color: var(--color-digital); }
+        
+        .era-icon {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 0 0 8px var(--color-background);
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .era-left .era-icon {
+            right: -30px;
+        }
+        
+        .era-right .era-icon {
+            left: -30px;
+        }
+        
+        .era-1 .era-icon { color: var(--color-antigua); }
+        .era-2 .era-icon { color: var(--color-medieval); }
+        .era-3 .era-icon { color: var(--color-industrial); }
+        .era-4 .era-icon { color: var(--color-digital); }
+        
+        .era-date {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .era-highlights {
+            margin-top: 20px;
+        }
+        
+        .era-highlights li {
+            margin-bottom: 8px;
+            list-style-type: none;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .era-highlights li::before {
+            content: '►';
+            position: absolute;
+            left: 0;
+            color: inherit;
+        }
+        
+        .era-1 .era-highlights li::before { color: var(--color-antigua); }
+        .era-2 .era-highlights li::before { color: var(--color-medieval); }
+        .era-3 .era-highlights li::before { color: var(--color-industrial); }
+        .era-4 .era-highlights li::before { color: var(--color-digital); }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #757575;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 900px) {
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .era {
+                flex-direction: column;
+            }
+            
+            .era-left, .era-right {
+                width: 100%;
+                padding: 20px 20px 20px 60px;
+                text-align: left;
+            }
+            
+            .era-left .era-content::after {
+                left: -10px;
+                right: auto;
+                clip-path: polygon(100% 0, 100% 100%, 0 50%);
+            }
+            
+            .era-left .era-icon, .era-right .era-icon {
+                left: -30px;
+                right: auto;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .era-title {
+                font-size: 1.5rem;
+            }
+            
+            .era-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Historia de la Ingeniería</h1>
+        <p class="subtitle">Un recorrido visual por la evolución de la ingeniería a través de los siglos, desde las primeras herramientas hasta la era digital</p>
+    </header>
+    
+    <div class="timeline">
+        <!-- Era 1: Antigüedad -->
+        <div class="era era-1">
+            <div class="era-left">
+                <div class="era-content">
+                    <h2 class="era-title">Ingeniería en la Antigüedad</h2>
+                    <p class="era-date">Prehistoria - 476 d.C.</p>
+                    <p>La ingeniería nació de la necesidad. Los primeros ejemplos se encuentran en la prehistoria, con la construcción de refugios y herramientas de caza. Las primeras grandes civilizaciones consolidaron esta práctica de forma estructurada.</p>
+                    
+                    <ul class="era-highlights">
+                        <li><strong>Mesopotamia y Egipto:</strong> Sistemas de irrigación, control de inundaciones y las pirámides, que demuestran conocimiento avanzado de topografía y logística.</li>
+                        <li><strong>Imhotep:</strong> Primer ingeniero conocido, diseñó la pirámide escalonada de Saqqara.</li>
+                        <li><strong>Grecia y Roma:</strong> Los griegos desarrollaron máquinas simples, mientras los romanos construyeron caminos, puentes, acueductos y sistemas de alcantarillado a escala sin precedentes.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="era-icon">
+                <i class="fas fa-pyramid"></i>
+            </div>
+            <div class="era-right"></div>
+        </div>
+        
+        <!-- Era 2: Edad Media y Renacimiento -->
+        <div class="era era-2">
+            <div class="era-left"></div>
+            <div class="era-icon">
+                <i class="fas fa-cathedral"></i>
+            </div>
+            <div class="era-right">
+                <div class="era-content">
+                    <h2 class="era-title">Edad Media y Renacimiento</h2>
+                    <p class="era-date">476 - 1750</p>
+                    <p>Con la caída del Imperio Romano, el conocimiento técnico se mantuvo y se aplicó a nuevas necesidades, con un resurgimiento durante el Renacimiento.</p>
+                    
+                    <ul class="era-highlights">
+                        <li><strong>Edad Media:</strong> Construcción de fortalezas y catedrales góticas, perfeccionamiento de molinos de agua y viento.</li>
+                        <li><strong>Renacimiento:</strong> Resurgimiento del conocimiento científico y aplicación de la teoría a la práctica.</li>
+                        <li><strong>Leonardo da Vinci:</strong> Artista e ingeniero que diseñó máquinas voladoras, tanques y sistemas hidráulicos.</li>
+                        <li><strong>Imprenta de Gutenberg:</strong> Avance crucial que permitió la difusión masiva del conocimiento.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Era 3: Revolución Industrial -->
+        <div class="era era-3">
+            <div class="era-left">
+                <div class="era-content">
+                    <h2 class="era-title">Revolución Industrial</h2>
+                    <p class="era-date">1750 - 1900</p>
+                    <p>Punto de inflexión que transformó la ingeniería de un arte empírico a una profesión científica y académica.</p>
+                    
+                    <ul class="era-highlights">
+                        <li><strong>Máquina de vapor:</strong> Inventada por James Watt, catalizó la industrialización.</li>
+                        <li><strong>Especialización:</strong> Nacimiento de la ingeniería civil (obras públicas) y mecánica (máquinas).</li>
+                        <li><strong>Consolidación profesional:</strong> Creación de las primeras sociedades y escuelas de ingeniería.</li>
+                        <li><strong>Ingenieros notables:</strong> Isambard Kingdom Brunel y sus audaces proyectos.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="era-icon">
+                <i class="fas fa-industry"></i>
+            </div>
+            <div class="era-right"></div>
+        </div>
+        
+        <!-- Era 4: Siglos XX y XXI -->
+        <div class="era era-4">
+            <div class="era-left"></div>
+            <div class="era-icon">
+                <i class="fas fa-microchip"></i>
+            </div>
+            <div class="era-right">
+                <div class="era-content">
+                    <h2 class="era-title">Era Contemporánea</h2>
+                    <p class="era-date">Siglos XX y XXI</p>
+                    <p>Explosión de innovación tecnológica impulsada por las Guerras Mundiales, la carrera espacial y la revolución digital.</p>
+                    
+                    <ul class="era-highlights">
+                        <li><strong>Diversificación:</strong> Surgimiento de nuevas ramas: eléctrica, química, aeronáutica, de sistemas e informática.</li>
+                        <li><strong>Era digital:</strong> La invención del transistor y desarrollo de la electrónica abrieron el camino a la computación.</li>
+                        <li><strong>Globalización:</strong> Revolución en telecomunicaciones, software, inteligencia artificial y nanotecnología.</li>
+                        <li><strong>Enfoque actual:</strong> Soluciones sostenibles para el cambio climático y escasez de recursos.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Infografía basada en el documento "La historia de la ingeniería es la historia de la humanidad"</p>
+        <p>© 2023 - Historia de la Ingeniería</p>
+    </footer>
+
+    <script>
+        // Efecto de aparición al hacer scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const eras = document.querySelectorAll('.era');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+            
+            eras.forEach(era => {
+                observer.observe(era);
+            });
+        });
+    </script>
+</body>
+</html>
